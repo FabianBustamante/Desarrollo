@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario CV</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea,
+        input[list] {
+            width: 98%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="radio"],
+        input[type="checkbox"] {
+            margin-right: 10px;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+
+        .dynamic-section {
+            margin-bottom: 20px;
+        }
+
+        .add-button {
+            background-color: #2196F3;
+            color: white;
+            padding: 10px;
+            border: none;
+            cursor: pointer;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .add-button:hover {
+            background-color: #1976D2;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Formulario para CV</h1>
+    <form id="cvForm" action="index.php" method="POST">
+        <label for="nombre">Nombre y Apellidos:</label>
+        <input type="text" id="nombre" name="nombre" required><br>
+
+        <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br>
+
+        <label for="ocupacion">Ocupación:</label>
+        <input type="text" id="ocupacion" name="ocupacion" required><br>
+
+        <label for="contacto">Contacto (Teléfono o Email):</label>
+        <input type="text" id="contacto" name="contacto" required><br>
+
+        <label for="nacionalidad">Nacionalidad:</label>
+        <select id="nacionalidad" name="nacionalidad" required>
+            <option value="peruana">Peruana</option>
+            <option value="mexicana">Mexicana</option>
+            <option value="española">Española</option>
+            <option value="argentina">Argentina</option>
+        </select><br>
+
+        <label>Nivel de Inglés:</label><br>
+        <input type="radio" id="basico" name="nivel_ingles" value="basico" required>
+        <label for="basico">Básico</label><br>
+        <input type="radio" id="intermedio" name="nivel_ingles" value="intermedio">
+        <label for="intermedio">Intermedio</label><br>
+        <input type="radio" id="avanzado" name="nivel_ingles" value="avanzado">
+        <label for="avanzado">Avanzado</label><br>
+        <input type="radio" id="fluido" name="nivel_ingles" value="fluido">
+        <label for="fluido">Fluido</label><br>
+
+        <label for="lenguajes">Lenguajes de Programación:</label>
+        <select id="lenguajes" name="lenguajes[]" multiple required>
+            <option value="python">Python</option>
+            <option value="java">Java</option>
+            <option value="c++">C++</option>
+            <option value="javascript">JavaScript</option>
+        </select><br>
+
+        <label for="aptitudes">Aptitudes:</label>
+        <input list="aptitudes-list" id="aptitudes" name="aptitudes" required>
+        <datalist id="aptitudes-list">
+            <option value="Liderazgo">
+            <option value="Trabajo en equipo">
+            <option value="Resolución de problemas">
+        </datalist><br>
+
+        <label>Habilidades:</label><br>
+        <input type="checkbox" id="habilidad1" name="habilidades[]" value="comunicacion">
+        <label for="habilidad1">Comunicación</label><br>
+        <input type="checkbox" id="habilidad2" name="habilidades[]" value="trabajo_en_equipo">
+        <label for="habilidad2">Trabajo en equipo</label><br>
+        <input type="checkbox" id="habilidad3" name="habilidades[]" value="gestion_de_proyectos">
+        <label for="habilidad3">Gestión de proyectos</label><br>
+
+        <label for="perfil">Perfil:</label><br>
+        <textarea id="perfil" name="perfil" rows="4" cols="50" required></textarea><br>
+
+        <!-- Sección para agregar dinámicamente -->
+        <div class="dynamic-section" id="experiencia-laboral-section">
+            <h2>Experiencia Laboral</h2>
+            <button type="button" class="add-button" onclick="addField('experiencia-laboral-section', 'experiencia')">Agregar Experiencia</button>
+        </div>
+
+        <div class="dynamic-section" id="formacion-section">
+            <h2>Formación</h2>
+            <button type="button" class="add-button" onclick="addField('formacion-section', 'formacion')">Agregar Formación</button>
+        </div>
+
+        <div class="dynamic-section" id="idiomas-section">
+            <h2>Idiomas</h2>
+            <button type="button" class="add-button" onclick="addField('idiomas-section', 'idiomas')">Agregar Idioma</button>
+        </div>
+
+        <div class="dynamic-section" id="aptitudes-habilidades-section">
+            <h2>Aptitudes y Habilidades</h2>
+            <button type="button" class="add-button" onclick="addField('aptitudes-habilidades-section', 'aptitud')">Agregar Aptitud/Habilidad</button>
+        </div>
+
+        <input type="submit" value="Enviar">
+    </form>
+
+    <script>
+        function addField(sectionId, fieldName) {
+            var section = document.getElementById(sectionId);
+            var input = document.createElement("input");
+            input.type = "text";
+            input.name = fieldName + '[]';
+            input.placeholder = "Escribe " + fieldName;
+            input.required = true;
+            section.appendChild(input);
+        }
+
+        document.getElementById("cvForm").addEventListener("submit", function(event) {
+            var form = this;
+            var valid = form.checkValidity();
+            
+            if (!valid) {
+                alert("Por favor, completa todos los campos correctamente.");
+                event.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
