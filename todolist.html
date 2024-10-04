@@ -1,0 +1,107 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>DBP - Todo List</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+      }
+      input[type="text"] {
+        margin-right: 10px;
+      }
+      ol {
+        margin-top: 20px;
+      }
+      li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        align-items: center;
+      }
+      .delete-btn {
+        margin-left: 10px;
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 2px 8px;
+        cursor: pointer;
+      }
+      .completed {
+        text-decoration: line-through;
+        color: grey;
+      }
+    </style>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // Manejar el envío del formulario para agregar nuevas tareas
+        document.querySelector('#new-task').onsubmit = () => {
+          const taskText = document.querySelector('#task').value;
+          if (taskText.trim() === "") {
+            return false; // No permitir tareas vacías
+          }
+
+          const li = document.createElement('li');
+
+          // Crear la casilla de verificación
+          const cb = document.createElement("input");
+          cb.setAttribute("type", "checkbox");
+
+          // Crear el botón de eliminar
+          const deleteBtn = document.createElement("button");
+          deleteBtn.innerHTML = "X";
+          deleteBtn.className = "delete-btn";
+
+          // Borrar con el botón "X"
+          deleteBtn.onclick = () => {
+            li.remove();
+          };
+
+          // Crear el span para el texto de la tarea
+          const taskLabel = document.createElement('span');
+          taskLabel.textContent = taskText;
+
+          // Marcar la tarea como completada (rayar) al hacer clic en el checkbox
+          cb.onchange = () => {
+            if (cb.checked) {
+              taskLabel.classList.add('completed');
+            } else {
+              taskLabel.classList.remove('completed');
+            }
+          };
+
+          // Añadir la casilla de verificación y el texto a la tarea
+          li.appendChild(cb);
+          li.appendChild(taskLabel);
+          li.appendChild(deleteBtn);
+
+          // Añadir la tarea a la lista
+          document.querySelector('#tasks').append(li);
+
+          // Limpiar el campo de entrada después de agregar la tarea
+          document.querySelector('#task').value = '';
+
+          return false; // Prevenir el comportamiento por defecto del formulario
+        };
+
+        // Función para marcar todas las tareas como completadas
+        document.querySelector('#complete-all').onclick = () => {
+          const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+          checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+            checkbox.parentNode.querySelector('span').classList.add('completed');
+          });
+        };
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Todo List</h1>
+    <form id="new-task">
+      <input id="task" autocomplete="off" autofocus placeholder="New Task" type="text">
+      <input type="submit" value="Add Todo">
+    </form>
+    <button id="complete-all">Complete All</button>
+    <ol id="tasks"></ol>
+  </body>
+</html>
